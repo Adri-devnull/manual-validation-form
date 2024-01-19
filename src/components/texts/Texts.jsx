@@ -1,19 +1,29 @@
+import {
+	StyledButtonFree,
+	StyledSpanBold,
+	StyledSpanLighter,
+	StyledText,
+	StyledTextContainer,
+	StyledTitle,
+	SyledContentContainer
+} from './styles';
+
 const Texts = () => {
 	return (
-		<div>
-			<div>
-				<h2>Learn to code by watching others</h2>
-				<p>
+		<SyledContentContainer>
+			<StyledTextContainer>
+				<StyledTitle>Learn to code by watching others</StyledTitle>
+				<StyledText>
 					See how experienced developers solve problems in real-time. Watching
 					scripted tutorials is great, but understanding how developers think is
 					invaluable.
-				</p>
-			</div>
-			<div>
-				<span>Try it free 7 days</span>
-				<span>then $20/mo. thereafter</span>
-			</div>
-		</div>
+				</StyledText>
+			</StyledTextContainer>
+			<StyledButtonFree>
+				<StyledSpanBold>Try it free 7 days</StyledSpanBold>
+				<StyledSpanLighter>then $20/mo. thereafter</StyledSpanLighter>
+			</StyledButtonFree>
+		</SyledContentContainer>
 	);
 };
 

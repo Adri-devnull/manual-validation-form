@@ -1,4 +1,14 @@
 import { useState } from 'react';
+import {
+	StyledErrorContainer,
+	StyledForm,
+	StyledFreeTrial,
+	StyledInput,
+	StyledSpanLigther,
+	StyledSpanWeight,
+	StyledSpansContainer,
+	SytledErrorSpan
+} from './styles';
 
 const Form = () => {
 	const [formValues, setFormValues] = useState({
@@ -16,10 +26,10 @@ const Form = () => {
 
 	console.log(formValues.errors);
 	return (
-		<form onSubmit={handleSubmit}>
+		<StyledForm onSubmit={handleSubmit}>
 			<div>
 				<label htmlFor='name'></label>
-				<input
+				<StyledInput
 					type='text'
 					id='name'
 					name='name'
@@ -28,10 +38,15 @@ const Form = () => {
 						changeFormValues(event.target, formValues, setFormValues)
 					}
 				/>
+				<StyledErrorContainer>
+					{formValues.errors.name && (
+						<SytledErrorSpan>First Name cannot be empty</SytledErrorSpan>
+					)}
+				</StyledErrorContainer>
 			</div>
 			<div>
 				<label htmlFor='surname'></label>
-				<input
+				<StyledInput
 					type='text'
 					id='surname'
 					name='surname'
@@ -40,10 +55,15 @@ const Form = () => {
 						changeFormValues(event.target, formValues, setFormValues)
 					}
 				/>
+				<StyledErrorContainer>
+					{formValues.errors.surname && (
+						<SytledErrorSpan>Surname cannot be empty</SytledErrorSpan>
+					)}
+				</StyledErrorContainer>
 			</div>
 			<div>
 				<label htmlFor='email'></label>
-				<input
+				<StyledInput
 					type='text'
 					id='email'
 					name='email'
@@ -52,10 +72,15 @@ const Form = () => {
 						changeFormValues(event.target, formValues, setFormValues)
 					}
 				/>
+				<StyledErrorContainer>
+					{formValues.errors.email && (
+						<SytledErrorSpan>Look like this is not an email</SytledErrorSpan>
+					)}
+				</StyledErrorContainer>
 			</div>
 			<div>
 				<label htmlFor='password'></label>
-				<input
+				<StyledInput
 					type='password'
 					id='password'
 					name='password'
@@ -64,21 +89,32 @@ const Form = () => {
 						changeFormValues(event.target, formValues, setFormValues)
 					}
 				/>
+				<StyledErrorContainer>
+					{formValues.errors.password && (
+						<SytledErrorSpan>Password cannot be empty</SytledErrorSpan>
+					)}
+				</StyledErrorContainer>
 			</div>
 			<div>
-				<input type='submit' value='CLAIM YOUR FREE TRIAL' />
+				<StyledFreeTrial type='submit' value='CLAIM YOUR FREE TRIAL' />
 			</div>
-			<div>
-				<span>By clicking the button, you are agreeing to our </span>
-				<span>Terms and Services</span>
-			</div>
-		</form>
+			<StyledSpansContainer>
+				<StyledSpanLigther>
+					By clicking the button, you are agreeing to our{' '}
+				</StyledSpanLigther>
+				<StyledSpanWeight>Terms and Services</StyledSpanWeight>
+			</StyledSpansContainer>
+		</StyledForm>
 	);
 };
 
 const formValidation = (name, value, formValues, setFormValues) => {
 	const valueWithoutSpaces = value.trim();
 	const regexForName = /^[a-zA-Z]+$/;
+	const regexForEmail =
+		/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+	const regexForPassword =
+		/^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$/;
 	if (name === 'name') {
 		const correctName = !regexForName.test(valueWithoutSpaces);
 		setFormValues({
@@ -90,6 +126,24 @@ const formValidation = (name, value, formValues, setFormValues) => {
 		setFormValues({
 			...formValues,
 			errors: { ...formValues.errors, surname: correctSurname }
+		});
+	} else if (name === 'email') {
+		const correctEmail = !regexForEmail.test(valueWithoutSpaces);
+		setFormValues({
+			...formValues,
+			errors: {
+				...formValues.errors,
+				email: correctEmail
+			}
+		});
+	} else {
+		const correctPassword = !regexForPassword.test(valueWithoutSpaces);
+		setFormValues({
+			...formValues,
+			errors: {
+				...formValues.errors,
+				password: correctPassword
+			}
 		});
 	}
 };
@@ -106,4 +160,4 @@ const handleSubmit = event => {
 
 export default Form;
 
-// ^(?:(?!@)[\w!#$%&'*+/=?^_`{|}~-]+(?:\.(?:(?!@)[\w!#$%&'*+/=?^_`{|}~-]+)*)*|"(?:(?:(?!")[\x00-\x20\x7F]|\\[\x00-\x7F])|\\[\x00-\x7F])*")@(?:[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*)*(?:\.[a-zA-Z]{2,})+$
+// Dígitos, minúsculas y mayúsculas y símbolos

@@ -1,13 +1,13 @@
 import Form from './components/form/Form';
-import Main from './components/main/Main';
+import { StyledMain } from './components/main/styles';
 import Texts from './components/texts/Texts';
 
 const App = () => {
 	return (
-		<Main>
+		<StyledMain>
 			<Texts />
 			<Form />
-		</Main>
+		</StyledMain>
 	);
 };
 
