@@ -2,7 +2,9 @@ import { useState } from 'react';
 import {
 	StyledErrorContainer,
 	StyledForm,
+	StyledFormField,
 	StyledFreeTrial,
+	StyledIconError,
 	StyledInput,
 	StyledSpanLigther,
 	StyledSpanWeight,
@@ -17,18 +19,31 @@ const Form = () => {
 		email: '',
 		password: '',
 		errors: {
-			name: false,
-			surname: false,
-			email: false,
-			password: false
+			name: {
+				empty: false,
+				wrong: false
+			},
+			surname: {
+				empty: false,
+				wrong: false
+			},
+			email: {
+				empty: false,
+				wrong: false
+			},
+			password: {
+				empty: false,
+				wrong: false
+			}
 		}
 	});
 
-	console.log(formValues.errors);
 	return (
 		<StyledForm onSubmit={handleSubmit}>
-			<div>
-				<label htmlFor='name'></label>
+			<StyledFormField>
+				{(formValues.errors.name.empty || formValues.errors.name.wrong) && (
+					<StyledIconError src='assets/images/icon-error.svg'></StyledIconError>
+				)}
 				<StyledInput
 					type='text'
 					id='name'
@@ -39,13 +54,19 @@ const Form = () => {
 					}
 				/>
 				<StyledErrorContainer>
-					{formValues.errors.name && (
+					{formValues.errors.name.empty && (
 						<SytledErrorSpan>First Name cannot be empty</SytledErrorSpan>
 					)}
+					{formValues.errors.name.wrong && (
+						<SytledErrorSpan>Invalid Name</SytledErrorSpan>
+					)}
 				</StyledErrorContainer>
-			</div>
-			<div>
-				<label htmlFor='surname'></label>
+			</StyledFormField>
+			<StyledFormField>
+				{(formValues.errors.surname.empty ||
+					formValues.errors.surname.wrong) && (
+					<StyledIconError src='assets/images/icon-error.svg'></StyledIconError>
+				)}
 				<StyledInput
 					type='text'
 					id='surname'
@@ -56,13 +77,18 @@ const Form = () => {
 					}
 				/>
 				<StyledErrorContainer>
-					{formValues.errors.surname && (
+					{formValues.errors.surname.empty && (
 						<SytledErrorSpan>Surname cannot be empty</SytledErrorSpan>
 					)}
+					{formValues.errors.surname.wrong && (
+						<SytledErrorSpan>Invalid Surname</SytledErrorSpan>
+					)}
 				</StyledErrorContainer>
-			</div>
-			<div>
-				<label htmlFor='email'></label>
+			</StyledFormField>
+			<StyledFormField>
+				{(formValues.errors.email.empty || formValues.errors.email.wrong) && (
+					<StyledIconError src='assets/images/icon-error.svg'></StyledIconError>
+				)}
 				<StyledInput
 					type='text'
 					id='email'
@@ -73,13 +99,19 @@ const Form = () => {
 					}
 				/>
 				<StyledErrorContainer>
-					{formValues.errors.email && (
-						<SytledErrorSpan>Look like this is not an email</SytledErrorSpan>
+					{formValues.errors.email.empty && (
+						<SytledErrorSpan>Email cannot be empty</SytledErrorSpan>
+					)}
+					{formValues.errors.email.wrong && (
+						<SytledErrorSpan>Looks like this is not an email</SytledErrorSpan>
 					)}
 				</StyledErrorContainer>
-			</div>
-			<div>
-				<label htmlFor='password'></label>
+			</StyledFormField>
+			<StyledFormField>
+				{(formValues.errors.password.empty ||
+					formValues.errors.password.wrong) && (
+					<StyledIconError src='assets/images/icon-error.svg'></StyledIconError>
+				)}
 				<StyledInput
 					type='password'
 					id='password'
@@ -90,11 +122,14 @@ const Form = () => {
 					}
 				/>
 				<StyledErrorContainer>
-					{formValues.errors.password && (
+					{formValues.errors.password.empty && (
 						<SytledErrorSpan>Password cannot be empty</SytledErrorSpan>
 					)}
+					{formValues.errors.password.wrong && (
+						<SytledErrorSpan>Incorrect password</SytledErrorSpan>
+					)}
 				</StyledErrorContainer>
-			</div>
+			</StyledFormField>
 			<div>
 				<StyledFreeTrial type='submit' value='CLAIM YOUR FREE TRIAL' />
 			</div>
@@ -119,13 +154,27 @@ const formValidation = (name, value, formValues, setFormValues) => {
 		const correctName = !regexForName.test(valueWithoutSpaces);
 		setFormValues({
 			...formValues,
-			errors: { ...formValues.errors, name: correctName }
+			errors: {
+				...formValues.errors,
+				name: {
+					...formValues.errors.name,
+					wrong: correctName && valueWithoutSpaces,
+					empty: !valueWithoutSpaces
+				}
+			}
 		});
 	} else if (name === 'surname') {
 		const correctSurname = !regexForName.test(valueWithoutSpaces);
 		setFormValues({
 			...formValues,
-			errors: { ...formValues.errors, surname: correctSurname }
+			errors: {
+				...formValues.errors,
+				surname: {
+					...formValues.errors.surname,
+					wrong: correctSurname && valueWithoutSpaces,
+					empty: !valueWithoutSpaces
+				}
+			}
 		});
 	} else if (name === 'email') {
 		const correctEmail = !regexForEmail.test(valueWithoutSpaces);
@@ -133,7 +182,11 @@ const formValidation = (name, value, formValues, setFormValues) => {
 			...formValues,
 			errors: {
 				...formValues.errors,
-				email: correctEmail
+				email: {
+					...formValues.errors.email,
+					wrong: correctEmail && valueWithoutSpaces,
+					empty: !valueWithoutSpaces
+				}
 			}
 		});
 	} else {
@@ -142,7 +195,11 @@ const formValidation = (name, value, formValues, setFormValues) => {
 			...formValues,
 			errors: {
 				...formValues.errors,
-				password: correctPassword
+				password: {
+					...formValues.errors.password,
+					wrong: correctPassword && valueWithoutSpaces,
+					empty: !valueWithoutSpaces
+				}
 			}
 		});
 	}

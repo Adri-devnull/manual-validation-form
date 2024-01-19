@@ -27,7 +27,6 @@ const StyledInput = styled.input`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: relative;
 
 	&::placeholder {
 		padding-left: 10px;
@@ -37,15 +36,32 @@ const StyledInput = styled.input`
 	@media screen and (min-width: 1024px) {
 		width: 460px;
 		height: 50px;
+		font-size: 1.2em;
 
 		&::placeholder {
 			padding-left: 20px;
 			font-weight: bold;
+			font-size: 14px;
+		}
+
+		&:focus {
+			outline: none;
+			border: 1px solid #ff7979;
+			background-color: #ffe6e6;
 		}
 	}
 `;
 
+const StyledIconError = styled.img`
+	position: absolute;
+	right: 1rem;
+	top: 0.8rem;
+	width: 20px;
+	height: 20px;
+`;
+
 const StyledFreeTrial = styled.input`
+	position: relative;
 	width: 279px;
 	height: 56px;
 	border-radius: 5px;
@@ -60,7 +76,12 @@ const StyledFreeTrial = styled.input`
 
 	@media screen and (min-width: 1024px) {
 		width: 465px;
+		cursor: pointer;
 	}
+`;
+
+const StyledFormField = styled.div`
+	position: relative;
 `;
 
 const StyledSpansContainer = styled.div`
@@ -86,6 +107,7 @@ const StyledSpanWeight = styled.span`
 	font-size: 11px;
 	font-weight: 700;
 	line-height: 21px;
+	cursor: pointer;
 `;
 
 const SytledErrorSpan = styled.span`
@@ -110,5 +132,7 @@ export {
 	StyledSpanWeight,
 	StyledSpansContainer,
 	SytledErrorSpan,
-	StyledErrorContainer
+	StyledErrorContainer,
+	StyledIconError,
+	StyledFormField
 };
